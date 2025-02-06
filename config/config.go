@@ -18,9 +18,22 @@ type Logging struct {
 	Format string `mapstructure:"format"`
 }
 
+type Image struct {
+	// LifetimeThreshold represents the threshold in terms of time (in days)
+	// after which images are considered for removal. Images older than this threshold may be cleaned up.
+	LifetimeThreshold uint16 `mapstructure:"lifetimeThreshold"`
+
+	// IgnoreLabels contains a list of image labels that should be ignored during the cleanup process.
+	// Images with any of these labels will not be considered for removal.
+	IgnoreLabels []string `mapstructure:"ignoreLabels"`
+}
+
 type Beerus struct {
 	// Logging specifies the logging configuration, including log level and format.
 	Logging Logging `mapstructure:"logging"`
+
+    // Images contains settings related to Docker image management, such as lifetime thresholds.
+	Images Image `mapstructure:"images"`
 }
 
 // Config represents configuration settings for managing Docker images and containers.
