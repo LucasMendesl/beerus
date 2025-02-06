@@ -5,17 +5,18 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/lucasmendesl/beerus/config"
 	"github.com/lucasmendesl/beerus/version"
 )
 
-func Create(logFormat, logLevel string) (*slog.Logger, error) {
-	handler, err := createHandler(logFormat)
+func Create(config config.Logging) (*slog.Logger, error) {
+	handler, err := createHandler(config.Format)
 	if err != nil {
 		return nil, err
 	}
 
 	level := new(slog.LevelVar)
-	if err := level.UnmarshalText([]byte(logLevel)); err != nil {
+	if err := level.UnmarshalText([]byte(config.Level)); err != nil {
 		return nil, fmt.Errorf("invalid log level: %w", err)
 	}
 

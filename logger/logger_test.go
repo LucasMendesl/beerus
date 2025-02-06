@@ -3,6 +3,7 @@ package logger_test
 import (
 	"testing"
 
+	"github.com/lucasmendesl/beerus/config"
 	"github.com/lucasmendesl/beerus/logger"
 	"github.com/stretchr/testify/require"
 )
@@ -16,8 +17,7 @@ func nopErr(t *testing.T, err error) bool {
 
 func TestLoggerCreate(t *testing.T) {
 	type args struct {
-		logLevel string
-        logFormat string
+        config config.Logging
 	}
 	tests := []struct {
 		name    string
@@ -27,7 +27,9 @@ func TestLoggerCreate(t *testing.T) {
 		{
 			name: "invalid format",
 			args: args{
-                logFormat: "something",
+                config: config.Logging{
+                    Format: "something",
+                },
 			},
 			wantErr: func(t *testing.T, err error) bool {
 				require.EqualError(t, err, "invalid log formatter: something")
@@ -37,8 +39,10 @@ func TestLoggerCreate(t *testing.T) {
 		{
 			name: "invalid log level",
 			args: args{
-				logLevel: "something",
-                logFormat: "text",
+                config: config.Logging{
+                    Level: "something",
+                    Format: "text",
+                },
 			},
 			wantErr: func(t *testing.T, err error) bool {
 				require.EqualError(t, err, "invalid log level: slog: level string \"something\": unknown name")
@@ -48,23 +52,27 @@ func TestLoggerCreate(t *testing.T) {
 		{
 			name: "create with text format",
 			args: args{
-                logLevel: "debug",
-                logFormat: "text",
+                config: config.Logging{
+                    Format: "text",
+                    Level: "debug",
+                },
 			},
 			wantErr: nopErr,
 		},
 		{
 			name: "create with json format",
 			args: args{
-                logLevel: "debug",
-                logFormat: "json",
+                config: config.Logging{
+                    Format: "json",
+                    Level: "debug",
+                },
 			},
 			wantErr: nopErr,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := logger.Create(tt.args.logFormat, tt.args.logLevel)
+			_, err := logger.Create(tt.args.config)
 
 			if tt.wantErr(t, err) {
 				return
