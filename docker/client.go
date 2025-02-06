@@ -6,12 +6,16 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/image"
 )
 
 type Client interface {
 	ImageList(ctx context.Context, options image.ListOptions) ([]image.Summary, error)
 	ImageRemove(ctx context.Context, imageID string, options image.RemoveOptions) ([]image.DeleteResponse, error)
+
+    ContainerList(ctx context.Context, options container.ListOptions) ([]types.Container, error)
 
 	Close() error
 }

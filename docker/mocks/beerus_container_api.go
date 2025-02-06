@@ -55,6 +55,26 @@ func (mr *MockBeerusContainerAPIMockRecorder) Close() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockBeerusContainerAPI)(nil).Close))
 }
 
+// ListContainers mocks base method.
+func (m *MockBeerusContainerAPI) ListContainers(ctx context.Context, concurrency uint8, options ...docker.ListContainersOptions) ([]docker.Container, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, concurrency}
+	for _, a := range options {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListContainers", varargs...)
+	ret0, _ := ret[0].([]docker.Container)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListContainers indicates an expected call of ListContainers.
+func (mr *MockBeerusContainerAPIMockRecorder) ListContainers(ctx, concurrency any, options ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, concurrency}, options...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListContainers", reflect.TypeOf((*MockBeerusContainerAPI)(nil).ListContainers), varargs...)
+}
+
 // ListExpiredImages mocks base method.
 func (m *MockBeerusContainerAPI) ListExpiredImages(ctx context.Context, options docker.ExpiredImageListOptions) ([]docker.Image, error) {
 	m.ctrl.T.Helper()

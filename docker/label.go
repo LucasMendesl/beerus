@@ -10,6 +10,10 @@ func (i Image) GetLabels() map[string]string {
 	return i.Labels
 }
 
+func (c Container) GetLabels() map[string]string {
+	return c.Labels
+}
+
 // removeIgnored filters out items from the given slice that have labels matching any of the given labels or the built-in "com.github.lucasmendesl.beerus.service" label.
 //
 // It takes a slice of items that satisfy the labeler interface and a variable number of label strings.

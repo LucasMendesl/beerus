@@ -13,6 +13,8 @@ import (
 	context "context"
 	reflect "reflect"
 
+	types "github.com/docker/docker/api/types"
+	container "github.com/docker/docker/api/types/container"
 	image "github.com/docker/docker/api/types/image"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -53,6 +55,21 @@ func (m *MockClient) Close() error {
 func (mr *MockClientMockRecorder) Close() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockClient)(nil).Close))
+}
+
+// ContainerList mocks base method.
+func (m *MockClient) ContainerList(ctx context.Context, options container.ListOptions) ([]types.Container, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ContainerList", ctx, options)
+	ret0, _ := ret[0].([]types.Container)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ContainerList indicates an expected call of ContainerList.
+func (mr *MockClientMockRecorder) ContainerList(ctx, options any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ContainerList", reflect.TypeOf((*MockClient)(nil).ContainerList), ctx, options)
 }
 
 // ImageList mocks base method.
