@@ -13,6 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
+	events "github.com/docker/docker/api/types/events"
 	docker "github.com/lucasmendesl/beerus/docker"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -53,6 +54,25 @@ func (m *MockBeerusContainerAPI) Close() error {
 func (mr *MockBeerusContainerAPIMockRecorder) Close() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockBeerusContainerAPI)(nil).Close))
+}
+
+// FromEvents mocks base method.
+func (m *MockBeerusContainerAPI) FromEvents(ctx context.Context, actions ...events.Action) <-chan docker.EventResult {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range actions {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "FromEvents", varargs...)
+	ret0, _ := ret[0].(<-chan docker.EventResult)
+	return ret0
+}
+
+// FromEvents indicates an expected call of FromEvents.
+func (mr *MockBeerusContainerAPIMockRecorder) FromEvents(ctx any, actions ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, actions...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FromEvents", reflect.TypeOf((*MockBeerusContainerAPI)(nil).FromEvents), varargs...)
 }
 
 // ListContainers mocks base method.

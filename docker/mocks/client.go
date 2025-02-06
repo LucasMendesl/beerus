@@ -15,6 +15,7 @@ import (
 
 	types "github.com/docker/docker/api/types"
 	container "github.com/docker/docker/api/types/container"
+	events "github.com/docker/docker/api/types/events"
 	image "github.com/docker/docker/api/types/image"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -70,6 +71,21 @@ func (m *MockClient) ContainerList(ctx context.Context, options container.ListOp
 func (mr *MockClientMockRecorder) ContainerList(ctx, options any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ContainerList", reflect.TypeOf((*MockClient)(nil).ContainerList), ctx, options)
+}
+
+// Events mocks base method.
+func (m *MockClient) Events(ctx context.Context, options events.ListOptions) (<-chan events.Message, <-chan error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Events", ctx, options)
+	ret0, _ := ret[0].(<-chan events.Message)
+	ret1, _ := ret[1].(<-chan error)
+	return ret0, ret1
+}
+
+// Events indicates an expected call of Events.
+func (mr *MockClientMockRecorder) Events(ctx, options any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Events", reflect.TypeOf((*MockClient)(nil).Events), ctx, options)
 }
 
 // ImageList mocks base method.

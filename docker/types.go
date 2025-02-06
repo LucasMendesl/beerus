@@ -5,6 +5,8 @@ package docker
 import (
 	"context"
 	"time"
+
+	"github.com/docker/docker/api/types/events"
 )
 
 type ListContainersOptions func(*ListContainerParams)
@@ -23,6 +25,7 @@ type BeerusContainerAPI interface {
 	ListContainers(ctx context.Context, concurrency uint8, options ...ListContainersOptions) ([]Container, error)
 	ListExpiredImages(ctx context.Context, options ExpiredImageListOptions) ([]Image, error)
 	RemoveImage(ctx context.Context, dockerImage string) error
+    FromEvents(ctx context.Context, actions ...events.Action) <-chan EventResult
 	Close() error
 }
 
@@ -55,4 +58,11 @@ type Container struct {
 	Labels        map[string]string
 	CreatedAt     time.Time
 	Status        ContainerStatus
+}
+
+// EventResult represents a result from the event stream, which may contain
+// either a Message or an error.
+type EventResult struct {
+    Message events.Message
+    Err     error
 }
