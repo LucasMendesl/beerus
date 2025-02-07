@@ -13,13 +13,14 @@ import (
 )
 
 type Client interface {
-    Events(ctx context.Context, options events.ListOptions) (<-chan events.Message, <-chan error)
-
 	ImageList(ctx context.Context, options image.ListOptions) ([]image.Summary, error)
 	ImageRemove(ctx context.Context, imageID string, options image.RemoveOptions) ([]image.DeleteResponse, error)
+	ContainerInspect(ctx context.Context, containerID string) (types.ContainerJSON, error)
+	ContainerRemove(ctx context.Context, containerID string, options container.RemoveOptions) error
+	ContainerList(ctx context.Context, options container.ListOptions) ([]types.Container, error)
+	Events(ctx context.Context, options events.ListOptions) (<-chan events.Message, <-chan error)
 
-    ContainerList(ctx context.Context, options container.ListOptions) ([]types.Container, error)
-
+	Ping(ctx context.Context) (types.Ping, error)
 	Close() error
 }
 

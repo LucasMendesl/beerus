@@ -15,13 +15,6 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-func nopErr(t *testing.T, err error) bool {
-	require.NoError(t, err)
-	return false
-}
-
-type wantErr func(t *testing.T, err error) bool
-
 func TestDockerClient_ListExpiredImages(t *testing.T) {
 	var (
 		ctrl         = gomock.NewController(t)

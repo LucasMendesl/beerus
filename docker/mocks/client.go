@@ -58,6 +58,21 @@ func (mr *MockClientMockRecorder) Close() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockClient)(nil).Close))
 }
 
+// ContainerInspect mocks base method.
+func (m *MockClient) ContainerInspect(ctx context.Context, containerID string) (types.ContainerJSON, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ContainerInspect", ctx, containerID)
+	ret0, _ := ret[0].(types.ContainerJSON)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ContainerInspect indicates an expected call of ContainerInspect.
+func (mr *MockClientMockRecorder) ContainerInspect(ctx, containerID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ContainerInspect", reflect.TypeOf((*MockClient)(nil).ContainerInspect), ctx, containerID)
+}
+
 // ContainerList mocks base method.
 func (m *MockClient) ContainerList(ctx context.Context, options container.ListOptions) ([]types.Container, error) {
 	m.ctrl.T.Helper()
@@ -71,6 +86,20 @@ func (m *MockClient) ContainerList(ctx context.Context, options container.ListOp
 func (mr *MockClientMockRecorder) ContainerList(ctx, options any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ContainerList", reflect.TypeOf((*MockClient)(nil).ContainerList), ctx, options)
+}
+
+// ContainerRemove mocks base method.
+func (m *MockClient) ContainerRemove(ctx context.Context, containerID string, options container.RemoveOptions) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ContainerRemove", ctx, containerID, options)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ContainerRemove indicates an expected call of ContainerRemove.
+func (mr *MockClientMockRecorder) ContainerRemove(ctx, containerID, options any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ContainerRemove", reflect.TypeOf((*MockClient)(nil).ContainerRemove), ctx, containerID, options)
 }
 
 // Events mocks base method.
@@ -116,4 +145,19 @@ func (m *MockClient) ImageRemove(ctx context.Context, imageID string, options im
 func (mr *MockClientMockRecorder) ImageRemove(ctx, imageID, options any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImageRemove", reflect.TypeOf((*MockClient)(nil).ImageRemove), ctx, imageID, options)
+}
+
+// Ping mocks base method.
+func (m *MockClient) Ping(ctx context.Context) (types.Ping, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Ping", ctx)
+	ret0, _ := ret[0].(types.Ping)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Ping indicates an expected call of Ping.
+func (mr *MockClientMockRecorder) Ping(ctx any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ping", reflect.TypeOf((*MockClient)(nil).Ping), ctx)
 }

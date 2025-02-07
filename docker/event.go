@@ -8,8 +8,8 @@ import (
 )
 
 const (
-    eventAction = "event"
-    filterType  = "type"
+	eventAction = "event"
+	filterType  = "type"
 )
 
 // FromEvents returns a channel of EventResult objects, which contain either an
@@ -26,36 +26,36 @@ const (
 // If the context is canceled, the channel will contain a single EventResult
 // object with an Err field that is equal to the context's error.
 func (d *dockerClient) FromEvents(ctx context.Context, actions ...events.Action) <-chan EventResult {
-    filterOpts := filters.NewArgs(
-            filters.Arg(filterType, string(events.ContainerEventType)),
-            filters.Arg(filterType, string(events.ImageEventType)),
-    )
-    for _, action := range actions {
-            filterOpts.Add(eventAction, string(action))
-    }
+	filterOpts := filters.NewArgs(
+		filters.Arg(filterType, string(events.ContainerEventType)),
+		filters.Arg(filterType, string(events.ImageEventType)),
+	)
+	for _, action := range actions {
+		filterOpts.Add(eventAction, string(action))
+	}
 
-    options := events.ListOptions{
-            Filters: filterOpts,
-    }
+	options := events.ListOptions{
+		Filters: filterOpts,
+	}
 
-    eventCh := make(chan EventResult, 1)
-    go func() {
-            msgCh, errCh := d.cli.Events(ctx, options)
-            defer close(eventCh)
+	eventCh := make(chan EventResult, 1)
+	go func() {
+		msgCh, errCh := d.cli.Events(ctx, options)
+		defer close(eventCh)
 
-            for {
-                    select {
-                    case <-ctx.Done():
-                            eventCh <- EventResult{Err: ctx.Err()}
-                            return
-                    case msg := <-msgCh:
-                            eventCh <- EventResult{Message: msg}
-                    case err := <-errCh:
-                            eventCh <- EventResult{Err: err}
-                            return
-                    }
-            }
-    }()
+		for {
+			select {
+			case <-ctx.Done():
+				eventCh <- EventResult{Err: ctx.Err()}
+				return
+			case msg := <-msgCh:
+				eventCh <- EventResult{Message: msg}
+			case err := <-errCh:
+				eventCh <- EventResult{Err: err}
+				return
+			}
+		}
+	}()
 
-    return eventCh
+	return eventCh
 }

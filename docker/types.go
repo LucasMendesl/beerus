@@ -6,10 +6,22 @@ import (
 	"context"
 	"time"
 
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/events"
 )
 
-type ListContainersOptions func(*ListContainerParams)
+type BeerusContainerAPI interface {
+	Inspect(ctx context.Context, containerID string) (types.ContainerJSON, error)
+	ListContainers(ctx context.Context, concurrency uint8, options ...ListContainersOptions) ([]Container, error)
+	RemoveContainer(ctx context.Context, options RemoveContainerOptions) error
+	ListExpiredImages(ctx context.Context, options ExpiredImageListOptions) ([]Image, error)
+	RemoveImage(ctx context.Context, dockerImage string) error
+	FromEvents(ctx context.Context, actions ...events.Action) <-chan EventResult
+	Close() error
+}
+
+type ListContainersOptions func(*ListContainersParams)
 
 // ContainerStatus is a string type representing the status of a container. It
 // has one of the following values:
@@ -21,20 +33,21 @@ type ListContainersOptions func(*ListContainerParams)
 //     busy by an external process.
 type ContainerStatus string
 
-type BeerusContainerAPI interface {
-	ListContainers(ctx context.Context, concurrency uint8, options ...ListContainersOptions) ([]Container, error)
-	ListExpiredImages(ctx context.Context, options ExpiredImageListOptions) ([]Image, error)
-	RemoveImage(ctx context.Context, dockerImage string) error
-    FromEvents(ctx context.Context, actions ...events.Action) <-chan EventResult
-	Close() error
-}
+const (
+	// ContainerStatusRunning means that the container is currently running.
+	ContainerStatusRunning ContainerStatus = "running"
 
-// ListContainerParams represents the parameters used when listing Docker containers.
-// It includes criteria such as the desired container statuses and labels to filter by.
-type ListContainerParams struct {
-	Status []ContainerStatus
-	Label  []string
-}
+	// ContainerStatusExited means that the container has exited, but its
+	// process has not been removed from memory.
+	ContainerStatusExited ContainerStatus = "exited"
+
+	// ContainerStatusDead menans that the container that was only partially
+	// removed because resources were kept busy by an external process.
+	ContainerStatusDead ContainerStatus = "dead"
+
+	// ContainerStatusCreated means that the container has been created but not yet started.
+	ContainerStatusCreated ContainerStatus = "created"
+)
 
 // ExpiredImageListOptions represents criteria for removable images.
 type ExpiredImageListOptions struct {
@@ -42,11 +55,11 @@ type ExpiredImageListOptions struct {
 	IgnoreLabels            []string
 }
 
-// Image represents a Docker image, containing its ID, tags, and labels.
-type Image struct {
-	ID     string
-	Labels map[string]string
-	Tags   []string
+// RemoveContainerOptions represents options for removing a container.
+type RemoveContainerOptions struct {
+	ContainerID   string
+	RemoveVolumes bool
+	RemoveLinks   bool
 }
 
 // Container represents a Docker container, containing its ID, status, image name,
@@ -58,11 +71,25 @@ type Container struct {
 	Labels        map[string]string
 	CreatedAt     time.Time
 	Status        ContainerStatus
+	RestartCount  int
+	RestartPolicy container.RestartPolicy
+}
+
+// Image represents a Docker image, containing its ID, tags, and labels.
+type Image struct {
+	ID     string
+	Labels map[string]string
+	Tags   []string
 }
 
 // EventResult represents a result from the event stream, which may contain
 // either a Message or an error.
 type EventResult struct {
-    Message events.Message
-    Err     error
+	Message events.Message
+	Err     error
+}
+
+type ListContainersParams struct {
+	Status []ContainerStatus
+	Label  []string
 }

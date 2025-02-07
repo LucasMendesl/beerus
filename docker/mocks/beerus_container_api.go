@@ -13,6 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
+	types "github.com/docker/docker/api/types"
 	events "github.com/docker/docker/api/types/events"
 	docker "github.com/lucasmendesl/beerus/docker"
 	gomock "go.uber.org/mock/gomock"
@@ -75,6 +76,21 @@ func (mr *MockBeerusContainerAPIMockRecorder) FromEvents(ctx any, actions ...any
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FromEvents", reflect.TypeOf((*MockBeerusContainerAPI)(nil).FromEvents), varargs...)
 }
 
+// Inspect mocks base method.
+func (m *MockBeerusContainerAPI) Inspect(ctx context.Context, containerID string) (types.ContainerJSON, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Inspect", ctx, containerID)
+	ret0, _ := ret[0].(types.ContainerJSON)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Inspect indicates an expected call of Inspect.
+func (mr *MockBeerusContainerAPIMockRecorder) Inspect(ctx, containerID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Inspect", reflect.TypeOf((*MockBeerusContainerAPI)(nil).Inspect), ctx, containerID)
+}
+
 // ListContainers mocks base method.
 func (m *MockBeerusContainerAPI) ListContainers(ctx context.Context, concurrency uint8, options ...docker.ListContainersOptions) ([]docker.Container, error) {
 	m.ctrl.T.Helper()
@@ -108,6 +124,20 @@ func (m *MockBeerusContainerAPI) ListExpiredImages(ctx context.Context, options 
 func (mr *MockBeerusContainerAPIMockRecorder) ListExpiredImages(ctx, options any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListExpiredImages", reflect.TypeOf((*MockBeerusContainerAPI)(nil).ListExpiredImages), ctx, options)
+}
+
+// RemoveContainer mocks base method.
+func (m *MockBeerusContainerAPI) RemoveContainer(ctx context.Context, options docker.RemoveContainerOptions) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RemoveContainer", ctx, options)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RemoveContainer indicates an expected call of RemoveContainer.
+func (mr *MockBeerusContainerAPIMockRecorder) RemoveContainer(ctx, options any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveContainer", reflect.TypeOf((*MockBeerusContainerAPI)(nil).RemoveContainer), ctx, options)
 }
 
 // RemoveImage mocks base method.
