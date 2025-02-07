@@ -1,0 +1,99 @@
+run:
+  concurrency: 1
+  timeout: 10m
+  issues-exit-code: 1
+  tests: true
+  skip-dirs:
+    - docker/mocks
+
+  skip-dirs-use-default: false
+  modules-download-mode: readonly
+  allow-parallel-runners: false
+  go: ""
+
+issues:
+ max-issues-per-linter: 0
+ max-same-issues: 0
+ new: false
+ fix: false
+
+linters:
+  fast: false
+  disable-all: true
+  enable:
+    - asasalint
+    - asciicheck
+    - contextcheck
+    - durationcheck
+    - errcheck
+    - errname
+    - errorlint
+    - exportloopref
+    - gocritic
+    - godot
+    - goimports
+    - gomoddirectives
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - nilerr
+    - nilnil
+    - nolintlint
+    - prealloc
+    - predeclared
+    - reassign
+    - revive
+    - staticcheck
+    - stylecheck
+    - tagliatelle
+    - testableexamples
+    - unconvert
+    - unparam
+    - unused
+    - usestdlibvars
+    - wastedassign
+
+linters-settings:
+  revive:
+    rules:
+      - name: unexported-return
+        disabled: true
+
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - hugeParam
+      - rangeExprCopy
+      - rangeValCopy
+
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+
+    exclude-functions:
+      - io/ioutil.ReadFile
+      - io.Copy(*bytes.Buffer)
+      - io.Copy(os.Stdout)
+      - github.com/spf13/viper.BindPFlag
+      - (*github.com/spf13/cobra.Command).Help
+
+  govet:
+    disable:
+      - fieldalignment
+
+  nakedret:
+    max-func-lines: 1
+
+  tagliatelle:
+    case:
+      rules:
+        yaml: camel
+        mapstructure: camel
