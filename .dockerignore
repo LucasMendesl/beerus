@@ -5,4 +5,7 @@
 !/go.*
 !/beerus.go
 !/cmd
+!/config
+!/docker
+!/logger
 !/version
