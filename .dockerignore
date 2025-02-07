@@ -5,6 +5,7 @@
 !/go.*
 !/beerus.go
 !/cmd
+!/cleaner
 !/config
 !/docker
 !/logger
