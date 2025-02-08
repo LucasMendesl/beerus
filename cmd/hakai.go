@@ -35,11 +35,11 @@ func help(cmd *cobra.Command, _ []string) {
 
 func setupCommandFlags(commandFlags *pflag.FlagSet) {
 	// general flags
-	commandFlags.Uint8P("concurrency-level", "c", 5, "number of concurrent workers")
-	commandFlags.Uint8P("poll-check-interval", "i", 1, "interval to check for expired resources in hours")
+	commandFlags.Uint("concurrency-level", 5, "number of concurrent workers")
+	commandFlags.Uint("poll-check-interval", 1, "interval to check for expired resources in hours")
 
 	// log section flags
-	commandFlags.String("log-level", "debug", "log level (debug, info, warn, error)")
+	commandFlags.String("log-level", "info", "log level (debug, info, warn, error)")
 	commandFlags.String("log-format", "text", "log format (json, text)")
 
 	// image section flags

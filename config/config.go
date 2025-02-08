@@ -85,10 +85,10 @@ type Beerus struct {
 // Config represents configuration settings for managing Docker images and containers.
 // It contains version information and nested structures for various configuration categories.
 type Config struct {
-    // Version specifies the version of the configuration file format.
-    // It is used to handle changes to the configuration file format
-    // over time and to ensure backwards compatibility.
-    Version string `mapstructure:"version"`
+	// Version specifies the version of the configuration file format.
+	// It is used to handle changes to the configuration file format
+	// over time and to ensure backwards compatibility.
+	Version string `mapstructure:"version"`
 
 	// Beerus holds the configuration settings specific to the Beerus application.
 	// It includes settings, logging, images, and container-related configurations.

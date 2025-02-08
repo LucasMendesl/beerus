@@ -17,7 +17,7 @@ func nopErr(t *testing.T, err error) bool {
 
 func TestLoggerCreate(t *testing.T) {
 	type args struct {
-        config config.Logging
+		config config.Logging
 	}
 	tests := []struct {
 		name    string
@@ -27,9 +27,9 @@ func TestLoggerCreate(t *testing.T) {
 		{
 			name: "invalid format",
 			args: args{
-                config: config.Logging{
-                    Format: "something",
-                },
+				config: config.Logging{
+					Format: "something",
+				},
 			},
 			wantErr: func(t *testing.T, err error) bool {
 				require.EqualError(t, err, "invalid log formatter: something")
@@ -39,10 +39,10 @@ func TestLoggerCreate(t *testing.T) {
 		{
 			name: "invalid log level",
 			args: args{
-                config: config.Logging{
-                    Level: "something",
-                    Format: "text",
-                },
+				config: config.Logging{
+					Level:  "something",
+					Format: "text",
+				},
 			},
 			wantErr: func(t *testing.T, err error) bool {
 				require.EqualError(t, err, "invalid log level: slog: level string \"something\": unknown name")
@@ -52,20 +52,20 @@ func TestLoggerCreate(t *testing.T) {
 		{
 			name: "create with text format",
 			args: args{
-                config: config.Logging{
-                    Format: "text",
-                    Level: "debug",
-                },
+				config: config.Logging{
+					Format: "text",
+					Level:  "debug",
+				},
 			},
 			wantErr: nopErr,
 		},
 		{
 			name: "create with json format",
 			args: args{
-                config: config.Logging{
-                    Format: "json",
-                    Level: "debug",
-                },
+				config: config.Logging{
+					Format: "json",
+					Level:  "debug",
+				},
 			},
 			wantErr: nopErr,
 		},

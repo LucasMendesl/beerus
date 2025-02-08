@@ -12,9 +12,9 @@ import (
 // It will run the root command and exit with a non-zero status code if
 // any error occurs.
 func main() {
-    rootCmd := cmd.NewRootCmd()
-    if err := rootCmd.Execute(); err != nil {
-        slog.Error("error on executing application", "err", err)
-        os.Exit(1)
-    }
+	rootCmd := cmd.NewRootCmd()
+	if err := rootCmd.Execute(); err != nil {
+		slog.Error("error on executing application", "err", err)
+		os.Exit(1)
+	}
 }
