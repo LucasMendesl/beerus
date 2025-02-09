@@ -3,19 +3,16 @@ package cleaner
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/lucasmendesl/beerus/docker"
 	"golang.org/x/sync/errgroup"
 )
 
+const createdTimeout float64 = 2 * 60 // 2 minutes
+
 // https://mohit8830.medium.com/mastering-docker-restart-policies-a-comprehensive-guide-ade2260e7e2c
 
-// listAllowedContainersToRemove returns a list of containers that are allowed to be removed.
-// A container is removable if it is either dead or exited and has no restart policy,
-// or if it is in created status and has been in this status for more than 5 minutes,
-// or if it is in on-failure restart policy and the maximum retry count has been reached.
-// The function takes a context.Context and returns a slice of strings containing the IDs of the
-// removable containers, and an error if any occurs.
 func (c *cleaner) listAllowedContainersToRemove(ctx context.Context) ([]string, error) {
 	// Fetch the containers that are either dead or exited and have no restart policy.
 	// The containers that are in created status are also considered for removal.
@@ -37,7 +34,15 @@ func (c *cleaner) listAllowedContainersToRemove(ctx context.Context) ([]string, 
 	// Filter the containers that are removable.
 	removableContainers := make([]string, 0, len(containers))
 	for _, ctr := range containers {
-		if docker.CanRemoveContainer(ctr, c.config.Containers.MaxAlwaysRestartPolicyCount) {
+		createdTimedOut := ctr.Status == docker.ContainerStatusCreated &&
+			time.Until(ctr.CreatedAt).Minutes() > createdTimeout
+
+		canRemoveContainer := docker.CanRemoveContainer(
+			ctr,
+			c.config.Containers.MaxAlwaysRestartPolicyCount,
+		)
+
+		if canRemoveContainer || createdTimedOut {
 			removableContainers = append(removableContainers, ctr.ID)
 		}
 	}
