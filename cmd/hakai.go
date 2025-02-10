@@ -35,15 +35,16 @@ func help(cmd *cobra.Command, _ []string) {
 
 func setupCommandFlags(commandFlags *pflag.FlagSet) {
 	// general flags
-	commandFlags.Uint("concurrency-level", 5, "number of concurrent workers")
-	commandFlags.Uint("poll-check-interval", 1, "interval to check for expired resources in hours")
+	commandFlags.Uint8("concurrency-level", 5, "number of concurrent workers")
+	commandFlags.Uint8("expiring-poll-check-interval", 1, "interval to check for expired resources in hours")
 
 	// log section flags
 	commandFlags.String("log-level", "info", "log level (debug, info, warn, error)")
 	commandFlags.String("log-format", "text", "log format (json, text)")
 
 	// image section flags
-	commandFlags.Uint16("lifetime-threshold", 100, "lifetime threshold in days")
+	commandFlags.Uint16("lifetime-threshold", 10, "lifetime threshold in days")
+	commandFlags.Bool("force-removal-on-conflict", false, "force removal of resources when a conflict is detected (more than one tag per repository)")
 	commandFlags.StringArray("image-ignore-labels", []string{}, "ignore images with the specified label during cleanup")
 
 	// container section flags
@@ -57,13 +58,14 @@ func setupCommandFlags(commandFlags *pflag.FlagSet) {
 
 func bindCommandFlags(commandFlags *pflag.FlagSet) {
 	viper.BindPFlag("beerus.concurrencyLevel", commandFlags.Lookup("concurrency-level"))
-	viper.BindPFlag("beerus.pollCheckInterval", commandFlags.Lookup("poll-check-interval"))
+	viper.BindPFlag("beerus.expiringPollCheckInterval", commandFlags.Lookup("expiring-poll-check-interval"))
 
 	viper.BindPFlag("beerus.logging.level", commandFlags.Lookup("log-level"))
 	viper.BindPFlag("beerus.logging.format", commandFlags.Lookup("log-format"))
 
 	viper.BindPFlag("beerus.images.lifetimeThreshold", commandFlags.Lookup("lifetime-threshold"))
 	viper.BindPFlag("beerus.images.ignoreLabels", commandFlags.Lookup("image-ignore-labels"))
+	viper.BindPFlag("beerus.images.forceRemovalOnConflict", commandFlags.Lookup("force-removal-on-conflict"))
 
 	viper.BindPFlag("beerus.containers.maxAlwaysRestartPolicyCount", commandFlags.Lookup("max-always-restart-policy-count"))
 	viper.BindPFlag("beerus.containers.ignoreLabels", commandFlags.Lookup("container-ignore-labels"))
@@ -71,6 +73,13 @@ func bindCommandFlags(commandFlags *pflag.FlagSet) {
 	viper.BindPFlag("beerus.containers.forceLinkCleanup", commandFlags.Lookup("force-link-cleanup"))
 }
 
+// cleanResources creates a docker client and a logger based on the configuration
+// file specified in the command line flag --config-file. It then creates a
+// cleaner object with the docker client and logger, and runs the cleaner with
+// the context created from the command context. The function also sets up a
+// signal handler to cancel the context when a SIGTERM or SIGINT signal is
+// received. If any error occurs during the cleanup process, the function returns
+// the error.
 func cleanResources(cmd *cobra.Command, _ []string) error {
 	cli, err := client.NewClientWithOpts(
 		client.FromEnv,

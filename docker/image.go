@@ -66,8 +66,10 @@ func (d *dockerClient) ListExpiredImages(ctx context.Context, options ExpiredIma
 //
 // Returns:
 //   - An error if there is an issue removing the image.
-func (d *dockerClient) RemoveImage(ctx context.Context, dockerImage string) error {
-	_, err := d.cli.ImageRemove(ctx, dockerImage, image.RemoveOptions{})
+func (d *dockerClient) RemoveImage(ctx context.Context, options RemoveImageOptions) error {
+	_, err := d.cli.ImageRemove(ctx, options.ImageID, image.RemoveOptions{
+		Force: options.Force,
+	})
 	return err
 }
 

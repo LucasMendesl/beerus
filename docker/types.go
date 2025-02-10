@@ -16,7 +16,7 @@ type BeerusContainerAPI interface {
 	ListContainers(ctx context.Context, concurrency uint8, options ...ListContainersOptions) ([]Container, error)
 	RemoveContainer(ctx context.Context, options RemoveContainerOptions) error
 	ListExpiredImages(ctx context.Context, options ExpiredImageListOptions) ([]Image, error)
-	RemoveImage(ctx context.Context, dockerImage string) error
+	RemoveImage(ctx context.Context, options RemoveImageOptions) error
 	FromEvents(ctx context.Context, actions ...events.Action) <-chan EventResult
 	Close() error
 }
@@ -62,6 +62,12 @@ type RemoveContainerOptions struct {
 	RemoveLinks   bool
 }
 
+// RemoveImageOptions represents options for removing an image.
+type RemoveImageOptions struct {
+	ImageID string
+	Force   bool
+}
+
 // Container represents a Docker container, containing its ID, status, image name,
 // and image ID.
 type Container struct {
@@ -89,6 +95,9 @@ type EventResult struct {
 	Err     error
 }
 
+// ListContainersParams represents parameters for filtering and retrieving a list
+// of Docker containers. The parameters are used by the ListContainers method to
+// filter the containers by status and labels.
 type ListContainersParams struct {
 	Status []ContainerStatus
 	Label  []string

@@ -141,15 +141,15 @@ func (mr *MockBeerusContainerAPIMockRecorder) RemoveContainer(ctx, options any) 
 }
 
 // RemoveImage mocks base method.
-func (m *MockBeerusContainerAPI) RemoveImage(ctx context.Context, dockerImage string) error {
+func (m *MockBeerusContainerAPI) RemoveImage(ctx context.Context, options docker.RemoveImageOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveImage", ctx, dockerImage)
+	ret := m.ctrl.Call(m, "RemoveImage", ctx, options)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveImage indicates an expected call of RemoveImage.
-func (mr *MockBeerusContainerAPIMockRecorder) RemoveImage(ctx, dockerImage any) *gomock.Call {
+func (mr *MockBeerusContainerAPIMockRecorder) RemoveImage(ctx, options any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveImage", reflect.TypeOf((*MockBeerusContainerAPI)(nil).RemoveImage), ctx, dockerImage)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveImage", reflect.TypeOf((*MockBeerusContainerAPI)(nil).RemoveImage), ctx, options)
 }

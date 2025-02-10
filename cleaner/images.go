@@ -46,6 +46,10 @@ func (c *cleaner) listAllowedImagesToRemove(ctx context.Context) ([]docker.Image
 	c.log.Debug("Filtering running images from expired images")
 	removableImgs := make([]docker.Image, 0, len(expiredImgs))
 	for _, img := range expiredImgs {
+		if len(img.Tags) > 1 && !c.config.Images.ForceRemovalOnConflict {
+			continue
+		}
+
 		if _, ok := runningImages[img.ID]; !ok {
 			removableImgs = append(removableImgs, img)
 		}
@@ -79,7 +83,12 @@ func (c *cleaner) removeImages(ctx context.Context, removableImgs ...docker.Imag
 	for _, img := range removableImgs {
 		g.Go(func() error {
 			c.log.Debug("Attempting to remove image", "imageID", img.ID)
-			if err := c.d.RemoveImage(ctx, img.ID); err != nil {
+			options := docker.RemoveImageOptions{
+				ImageID: img.ID,
+				Force:   len(img.Tags) > 1 && c.config.Images.ForceRemovalOnConflict,
+			}
+
+			if err := c.d.RemoveImage(ctx, options); err != nil {
 				return fmt.Errorf("error removing image with id %s: %w", img.ID, err)
 			}
 			c.log.Debug("Successfully removed image", "imageID", img.ID)

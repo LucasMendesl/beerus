@@ -26,6 +26,11 @@ type Image struct {
 	// IgnoreLabels contains a list of image labels that should be ignored during the cleanup process.
 	// Images with any of these labels will not be considered for removal.
 	IgnoreLabels []string `mapstructure:"ignoreLabels"`
+
+	// ForceRemovalOnConflict is a boolean that, if set to true, will force the
+	// removal of resources when a conflict is detected during the cleanup
+	// process (when one repository have more than one tag).
+	ForceRemovalOnConflict bool `mapstructure:"forceRemovalOnConflict"`
 }
 
 type Container struct {
