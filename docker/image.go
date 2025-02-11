@@ -58,11 +58,13 @@ func (d *dockerClient) ListExpiredImages(ctx context.Context, options ExpiredIma
 	return removeIgnored(removableImages, options.IgnoreLabels...), nil
 }
 
-// RemoveImage removes a Docker image by its ID or name.
+// RemoveImage removes a Docker image by its ID.
 //
 // Parameters:
 //   - ctx: The context for managing request lifetime and cancellation.
-//   - dockerImage: The ID or name of the image to be removed.
+//   - options: A RemoveImageOptions struct containing the ID of the image
+//     to be removed and a force flag to indicate whether the image should
+//     be forcibly removed.
 //
 // Returns:
 //   - An error if there is an issue removing the image.

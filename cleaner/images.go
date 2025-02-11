@@ -3,7 +3,6 @@ package cleaner
 import (
 	"context"
 	"fmt"
-	"log/slog"
 
 	"github.com/lucasmendesl/beerus/docker"
 	"golang.org/x/sync/errgroup"
@@ -74,7 +73,7 @@ func (c *cleaner) removeImages(ctx context.Context, removableImgs ...docker.Imag
 	c.log.Debug("Removing images", "count", imagesLen)
 
 	if imagesLen == 0 {
-		slog.Warn("No images to remove")
+		c.log.Warn("No images to remove")
 		return nil
 	}
 

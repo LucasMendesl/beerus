@@ -3,7 +3,6 @@ package cleaner
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"time"
 
 	"github.com/docker/docker/api/types/events"
@@ -29,7 +28,7 @@ func (c *cleaner) watch(ctx context.Context, errCh chan<- error) {
 		events.ActionUnTag,
 	) {
 		if result.Err != nil {
-			slog.Error("error receiving event", "error", result.Err, "context", "Event")
+			c.log.Error("error receiving event", "error", result.Err, "context", "Event")
 			errCh <- result.Err
 			return
 		}

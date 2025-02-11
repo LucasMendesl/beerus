@@ -11,8 +11,17 @@ import (
 
 const createdTimeout float64 = 2 * 60 // 2 minutes
 
-// https://mohit8830.medium.com/mastering-docker-restart-policies-a-comprehensive-guide-ade2260e7e2c
-
+// listAllowedContainersToRemove returns a list of Docker container IDs that are
+// considered for removal based on the container's status and restart policy.
+// Containers that are in created status and have timed out will also be
+// considered for removal.
+//
+// Parameters:
+//   - ctx: The context for managing request lifetime and cancellation.
+//
+// Returns:
+//   - A slice of container IDs that are removable.
+//   - An error if there is an issue fetching or inspecting the containers.
 func (c *cleaner) listAllowedContainersToRemove(ctx context.Context) ([]string, error) {
 	// Fetch the containers that are either dead or exited and have no restart policy.
 	// The containers that are in created status are also considered for removal.
@@ -34,7 +43,7 @@ func (c *cleaner) listAllowedContainersToRemove(ctx context.Context) ([]string, 
 	// Filter the containers that are removable.
 	removableContainers := make([]string, 0, len(containers))
 	for _, ctr := range containers {
-		createdTimedOut := ctr.Status == docker.ContainerStatusCreated &&
+		createdTimedOutReached := ctr.Status == docker.ContainerStatusCreated &&
 			time.Until(ctr.CreatedAt).Minutes() > createdTimeout
 
 		canRemoveContainer := docker.CanRemoveContainer(
@@ -42,7 +51,7 @@ func (c *cleaner) listAllowedContainersToRemove(ctx context.Context) ([]string, 
 			c.config.Containers.MaxAlwaysRestartPolicyCount,
 		)
 
-		if canRemoveContainer || createdTimedOut {
+		if canRemoveContainer || createdTimedOutReached {
 			removableContainers = append(removableContainers, ctr.ID)
 		}
 	}
