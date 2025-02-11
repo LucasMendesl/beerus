@@ -81,11 +81,12 @@ This project features a **highly flexible and adaptable configuration system**, 
 | Option | Description | Default | Environment Variable | CLI Flag | YAML Path |
 |--------|-------------|---------|---------------------|----------|-----------|
 | Concurrency Level | Number of concurrent workers | 5 | `BEERUS_CONCURRENCY_LEVEL` | `--concurrency-level` | `beerus.concurrencyLevel` |
-| Poll Check Interval | Resource check interval (hours) | 1 | `BEERUS_POLL_CHECK_INTERVAL` | `--poll-check-interval` | `beerus.pollCheckInterval` |
+| Poll Check Interval | Resource check interval (hours) | 1 | `BEERUS_EXPIRING_POLL_CHECK_INTERVAL` | `--expiring-poll-check-interval` | `beerus.expiringPollCheckInterval` |
 | Log Level | Logging verbosity | "info" | `BEERUS_LOG_LEVEL` | `--log-level` | `beerus.logging.level` |
 | Log Format | Log output format | "text" | `BEERUS_LOG_FORMAT` | `--log-format` | `beerus.logging.format` |
 | Image Lifetime | Age threshold for cleanup (days) | 100 | `BEERUS_IMAGES_LIFETIME_THRESHOLD` | `--lifetime-threshold` | `beerus.images.lifetimeThreshold` |
 | Image Ignore Labels | Skip cleanup for these labels | [] | `BEERUS_IMAGES_IGNORE_LABELS` | `--image-ignore-labels` | `beerus.images.ignoreLabels` |
+| Force Removal On Conflict | Allow to remove repository images that have more than one tag | false | `BEERUS_FORCE_REMOVAL_ON_CONFLICT` | `--force-removal-on-conflict` | `beerus.images.forceRemovalOnConflict` |
 | Container Max Restarts | Max "always" policy restarts | 0 | `BEERUS_CONTAINERS_MAX_ALWAYS_RESTART` | `--max-always-restart-policy-count` | `beerus.containers.maxAlwaysRestartPolicyCount` |
 | Container Ignore Labels | Skip cleanup for these labels | [] | `BEERUS_CONTAINERS_IGNORE_LABELS` | `--container-ignore-labels` | `beerus.containers.ignoreLabels` |
 | Force Volume Cleanup | Remove associated volumes | false | `BEERUS_CONTAINERS_FORCE_VOLUME_CLEANUP` | `--force-volume-cleanup` | `beerus.containers.forceVolumeCleanup` |
@@ -100,7 +101,7 @@ beerus:
   concurrencyLevel: 5
 
   # How often to check for expired resources (in hours)
-  pollCheckInterval: 1
+  expiringPollCheckInterval: 1
 
   logging:
     # Log level: debug, info, warn, error
@@ -114,6 +115,8 @@ beerus:
     # Skip cleanup for images with these labels
     ignoreLabels:
       - "beerus.service.critical"
+    # Force remove repository images that have more that one tag
+    forceRemovalOnConflict: false
 
   containers:
     # Maximum restart count for containers with "always" policy
@@ -133,7 +136,7 @@ beerus:
 ```sh
 beerus hakai \
   --concurrency-level=10 \
-  --poll-check-interval=2 \
+  --expiring-poll-check-interval=2 \
   --log-level=info \
   --log-format=json \
   --lifetime-threshold=60 \
@@ -141,7 +144,8 @@ beerus hakai \
   --container-ignore-labels="beerus.service.critical" \
   --max-always-restart-policy-count 10 \
   --force-volume-cleanup \
-  --force-link-cleanup
+  --force-link-cleanup \
+  --force-removal-on-conflict
 ```
 
 **Environment Variables**
@@ -150,7 +154,7 @@ beerus hakai \
 export BEERUS_LOG_LEVEL=debug
 export BEERUS_LOG_FORMAT=text
 export BEERUS_CONCURRENCY_LEVEL=10
-export BEERUS_POLL_CHECK_INTERVAL=24
+export BEERUS_EXPIRING_POLL_CHECK_INTERVAL=24
 export BEERUS_IMAGES_LIFETIME_THRESHOLD=30
 export BEERUS_IMAGES_IGNORE_LABELS="beerus.env.prod,beerus.keep.image"
 

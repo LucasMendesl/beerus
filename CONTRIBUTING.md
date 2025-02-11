@@ -22,30 +22,36 @@ Thank you for your interest in contributing to **Beerus**! 🎉 We appreciate yo
      git clone https://github.com/{your_username}/beerus.git
      cd beerus
      ```
+2. **Install Local Git hooks**
+    - Installing the required hooks in cloned repository
+     ```sh
+     pre-commit install
+     pre-commit install --hook-type commit-msg
+     ```
 
-2. **Create a New Branch**
+3. **Create a New Branch**
    - Use a descriptive name for your branch:
      ```sh
      git checkout -b feature/your-feature-name
      ```
 
-3. **Install Dependencies**
+4. **Install Dependencies**
    - Ensure you have the necessary dependencies installed:
      ```sh
         go mod download
      ```
 
-4. **Make Your Changes**
+5. **Make Your Changes**
    - Follow the project's coding style and best practices.
    - Write clear, maintainable, and well-documented code.
 
-5. **Run Tests**
+6. **Run Tests**
    - Before submitting, make sure your changes don’t break existing functionality:
      ```sh
        go test ./...
      ```
 
-6. **Commit Your Changes**
+7. **Commit Your Changes**
    - Use meaningful commit messages:
      ```sh
      git commit -m "feat: add new feature description"
@@ -55,7 +61,7 @@ Thank you for your interest in contributing to **Beerus**! 🎉 We appreciate yo
      git push origin feature/your-feature-name
      ```
 
-7. **Create a Pull Request**
+8. **Create a Pull Request**
    - Open a PR against the `main` branch of this repository.
    - Provide a **clear description** of the changes you made.
    - If applicable, include screenshots or logs to help reviewers.
