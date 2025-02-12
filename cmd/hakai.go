@@ -54,6 +54,24 @@ func setupCommandFlags(commandFlags *pflag.FlagSet) {
 	commandFlags.Bool("force-link-cleanup", false, "force link cleanup")
 
 	bindCommandFlags(commandFlags)
+	bindEnv()
+}
+
+func bindEnv() {
+	viper.BindEnv("beerus.concurrencyLevel", "BEERUS_CONCURRENCY_LEVEL")
+	viper.BindEnv("beerus.expiringPollCheckInterval", "BEERUS_EXPIRING_POLL_CHECK_INTERVAL")
+
+	viper.BindEnv("beerus.logging.level", "BEERUS_LOG_LEVEL")
+	viper.BindEnv("beerus.logging.format", "BEERUS_LOG_FORMAT")
+
+	viper.BindEnv("beerus.images.lifetimeThreshold", "BEERUS_IMAGES_LIFETIME_THRESHOLD")
+	viper.BindEnv("beerus.images.ignoreLabels", "BEERUS_IMAGES_IGNORE_LABELS")
+	viper.BindEnv("beerus.images.forceRemovalOnConflict", "BEERUS_IMAGES_FORCE_REMOVAL_ON_CONFLICT")
+
+	viper.BindEnv("beerus.containers.maxAlwaysRestartPolicyCount", "BEERUS_CONTAINERS_MAX_ALWAYS_RESTART_POLICY_COUNT")
+	viper.BindEnv("beerus.containers.ignoreLabels", "BEERUS_CONTAINERS_IGNORE_LABELS")
+	viper.BindEnv("beerus.containers.forceVolumeCleanup", "BEERUS_CONTAINERS_FORCE_VOLUME_CLEANUP")
+	viper.BindEnv("beerus.containers.forceLinkCleanup", "BEERUS_CONTAINERS_FORCE_LINK_CLEANUP")
 }
 
 func bindCommandFlags(commandFlags *pflag.FlagSet) {

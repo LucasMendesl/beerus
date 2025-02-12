@@ -76,6 +76,7 @@ linters-settings:
       - io.Copy(*bytes.Buffer)
       - io.Copy(os.Stdout)
       - github.com/spf13/viper.BindPFlag
+      - github.com/spf13/viper.BindEnv
       - (*github.com/spf13/cobra.Command).Help
 
   govet:

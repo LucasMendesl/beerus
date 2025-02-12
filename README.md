@@ -86,8 +86,8 @@ This project features a **highly flexible and adaptable configuration system**, 
 | Log Format | Log output format | "text" | `BEERUS_LOG_FORMAT` | `--log-format` | `beerus.logging.format` |
 | Image Lifetime | Age threshold for cleanup (days) | 100 | `BEERUS_IMAGES_LIFETIME_THRESHOLD` | `--lifetime-threshold` | `beerus.images.lifetimeThreshold` |
 | Image Ignore Labels | Skip cleanup for these labels | [] | `BEERUS_IMAGES_IGNORE_LABELS` | `--image-ignore-labels` | `beerus.images.ignoreLabels` |
-| Force Removal On Conflict | Allow to remove repository images that have more than one tag | false | `BEERUS_FORCE_REMOVAL_ON_CONFLICT` | `--force-removal-on-conflict` | `beerus.images.forceRemovalOnConflict` |
-| Container Max Restarts | Max "always" policy restarts | 0 | `BEERUS_CONTAINERS_MAX_ALWAYS_RESTART` | `--max-always-restart-policy-count` | `beerus.containers.maxAlwaysRestartPolicyCount` |
+| Force Removal On Conflict | Allow to remove repository images that have more than one tag | false | `BEERUS_IMAGES_FORCE_REMOVAL_ON_CONFLICT` | `--force-removal-on-conflict` | `beerus.images.forceRemovalOnConflict` |
+| Container Max Restarts | Max "always" policy restarts | 0 | `BEERUS_CONTAINERS_MAX_ALWAYS_RESTART_POLICY_COUNT` | `--max-always-restart-policy-count` | `beerus.containers.maxAlwaysRestartPolicyCount` |
 | Container Ignore Labels | Skip cleanup for these labels | [] | `BEERUS_CONTAINERS_IGNORE_LABELS` | `--container-ignore-labels` | `beerus.containers.ignoreLabels` |
 | Force Volume Cleanup | Remove associated volumes | false | `BEERUS_CONTAINERS_FORCE_VOLUME_CLEANUP` | `--force-volume-cleanup` | `beerus.containers.forceVolumeCleanup` |
 | Force Link Cleanup | Remove associated links | false | `BEERUS_CONTAINERS_FORCE_LINK_CLEANUP` | `--force-link-cleanup` | `beerus.containers.forceLinkCleanup` |
