@@ -1,0 +1,58 @@
+name: "🚀 Feature Request"
+description: "Suggest a new feature or improvement for the project"
+title: "[Feature] <Your feature title here>"
+labels: ["enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: "## 🚀 Feature Request\nThank you for contributing! Please provide details about the feature you'd like to see."
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "📖 Description"
+      description: "What is this feature about? Provide a clear and concise explanation."
+      placeholder: "I would like to have..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: "💡 Motivation"
+      description: "Why is this feature needed? What problem does it solve?"
+      placeholder: "This feature will help..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "🔄 Alternatives"
+      description: "Have you considered any alternative solutions?"
+      placeholder: "An alternative could be..."
+    validations:
+      required: false
+
+  - type: input
+    id: related-issues
+    attributes:
+      label: "🔗 Related Issues"
+      description: "Link any related issues (if applicable)."
+      placeholder: "#123, #456"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "🚦 Priority Level"
+      description: "How urgent is this request?"
+      options:
+        - "Low"
+        - "Medium"
+        - "High"
+    validations:
+      required: true

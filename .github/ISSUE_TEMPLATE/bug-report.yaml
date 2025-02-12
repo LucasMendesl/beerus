@@ -1,0 +1,80 @@
+name: "🐛 Bug Report"
+description: "Report a bug or unexpected behavior in the project"
+title: "[Bug] <Your bug title here>"
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: "## 🐛 Bug Report\nThanks for reporting an issue! Please fill out the details below."
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: "🔍 Describe the Bug"
+      description: "A clear and concise description of what the bug is."
+      placeholder: "When I try to do X, I get Y instead of Z..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "📜 Steps to Reproduce"
+      description: "Steps to reproduce the issue."
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error '...'"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: "✅ Expected Behavior"
+      description: "What should have happened instead?"
+      placeholder: "I expected the application to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: "❌ Actual Behavior"
+      description: "What actually happened?"
+      placeholder: "Instead, the application did..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: "💻 Environment"
+      description: "Provide details about your setup."
+      placeholder: |
+        - OS: Windows/macOS/Linux
+        - Version: X.Y.Z
+        - Browser: Chrome/Firefox/etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "📜 Logs (if applicable)"
+      description: "Paste any error logs or stack traces."
+      render: shell
+    validations:
+      required: false
+
+  - type: input
+    id: related-issues
+    attributes:
+      label: "🔗 Related Issues"
+      description: "Link any related issues (if applicable)."
+      placeholder: "#123, #456"
+    validations:
+      required: false
