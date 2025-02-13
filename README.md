@@ -190,6 +190,7 @@ This project follows Go’s standard testing framework and supports a **flexible
 
 ## 🔰 Contributing
 
+- **💬 [Join the Discussions](https://github.com/lucasmendesl/beerus/discussions)**: Share your insights, provide feedback, or ask questions.
 - **🐛 [Report Issues](https://github.com/lucasmendesl/beerus/issues)**: Submit bugs found or log feature requests for the `beerus` project.
 - **💡 [Submit Pull Requests](https://github.com/lucasmendesl/beerus/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
 
