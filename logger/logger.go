@@ -10,26 +10,29 @@ import (
 )
 
 func Create(config config.Logging) (*slog.Logger, error) {
-	handler, err := createHandler(config.Format)
-	if err != nil {
-		return nil, err
-	}
-
 	level := new(slog.LevelVar)
 	if err := level.UnmarshalText([]byte(config.Level)); err != nil {
 		return nil, fmt.Errorf("invalid log level: %w", err)
 	}
 
-	slog.SetLogLoggerLevel(level.Level())
+	handler, err := createHandler(config.Format, level)
+	if err != nil {
+		return nil, err
+	}
+
 	return slog.New(handler).With("service", "beerus", "version", version.Version), nil
 }
 
-func createHandler(logFormatter string) (slog.Handler, error) {
+func createHandler(logFormatter string, level *slog.LevelVar) (slog.Handler, error) {
+	handlerOpts := &slog.HandlerOptions{
+		Level: level,
+	}
+
 	switch logFormatter {
 	case "json":
-		return slog.NewJSONHandler(os.Stdout, nil), nil
+		return slog.NewJSONHandler(os.Stdout, handlerOpts), nil
 	case "text":
-		return slog.NewTextHandler(os.Stdout, nil), nil
+		return slog.NewTextHandler(os.Stdout, handlerOpts), nil
 	default:
 		return nil, fmt.Errorf("invalid log formatter: %s", logFormatter)
 	}

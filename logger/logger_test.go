@@ -29,6 +29,7 @@ func TestLoggerCreate(t *testing.T) {
 			args: args{
 				config: config.Logging{
 					Format: "something",
+					Level:  "debug",
 				},
 			},
 			wantErr: func(t *testing.T, err error) bool {
