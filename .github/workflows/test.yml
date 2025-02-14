@@ -1,0 +1,41 @@
+name: Beerus CI Test
+
+on:
+    push:
+    pull_request:
+        branches:
+            - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+        GO_VERSION: '^1.23'
+        TESTCOVERAGE_THRESHOLD: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Run unit tests
+        run: |
+          go test -timeout 5m -coverprofile=coverage.out -covermode=count \
+          $(go list ./... | grep -v '/mocks\|/cmd\|/version')
+
+      - name: Check Code Coverage
+        run: |
+              echo "Checking test coverage is above threshold ..."
+              echo "Threshold             : $TESTCOVERAGE_THRESHOLD %"
+              totalCoverage=`go tool cover -func=coverage.out | grep total | grep -Eo '[0-9]+\.[0-9]+'`
+              echo "Current test coverage : $totalCoverage %"
+              if (( $(echo "$totalCoverage $TESTCOVERAGE_THRESHOLD" | awk '{print ($1 > $2)}') )); then
+                  echo "OK"
+              else
+                  echo "Current test coverage is below threshold. Please add more unit tests or adjust threshold to a lower value."
+                  echo "Failed"
+                  exit 1
+              fi
