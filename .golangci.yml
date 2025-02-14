@@ -21,7 +21,6 @@ linters:
     - errcheck
     - errname
     - errorlint
-    - exportloopref
     - gocritic
     - godot
     - goimports
@@ -48,6 +47,7 @@ linters:
     - unused
     - usestdlibvars
     - wastedassign
+    - copyloopvar
 
 linters-settings:
   revive:
@@ -91,3 +91,6 @@ linters-settings:
       rules:
         yaml: camel
         mapstructure: camel
+
+  copyloopvar:
+    check-alias: true
