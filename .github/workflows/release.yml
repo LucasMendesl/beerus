@@ -1,0 +1,61 @@
+name: Beerus Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      tag: ${{ steps.chglg.outputs.tag }}
+      version: ${{ steps.chglg.outputs.version }}
+      clean_changelog: ${{ steps.chglg.outputs.clean_changelog }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get next version
+        id: chglg
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-commit: "true"
+          git-user-name: 'LucasMendesl'
+          git-user-email: 'mendes_lucas2006@hotmail.com'
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [changelog]
+    permissions:
+        contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate Release Notes
+        uses: release-drafter/release-drafter@v5
+        id: drafter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: ${{ needs.changelog.outputs.tag }}
+          name: ${{ needs.changelog.outputs.tag }}
+          version: ${{ needs.changelog.outputs.version }}
+
+      - name: Print Release Notes
+        run: echo "${{ steps.drafter.outputs.body }}"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.changelog.outputs.tag }}
+          name: Release ${{ needs.changelog.outputs.tag }}
+          body: ${{ steps.drafter.outputs.body }}
+          draft: true
+          prerelease: false

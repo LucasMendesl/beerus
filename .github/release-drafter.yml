@@ -1,0 +1,71 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: 💥 Breaking changes
+    labels:
+      - breaking
+  - title: '🚀 New features and improvements'
+    labels:
+      - 'feature'
+      - 'enhancement'
+      - 'feat'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: 📝 Documentation updates
+    labels:
+      - documentation
+  - title: '🧰 Maintenance'
+    labels:
+      - 'chore'
+      - 'maintenance'
+      - 'refactor'
+  - title: 🚦 Tests
+    labels:
+      - test
+  - title: 📦 Dependency updates
+    labels:
+      - dependencies
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+template: |
+  ## 🆕 Changes
+  $CHANGES
+
+  ## 🤝 Contributors
+  $CONTRIBUTORS
+
+autolabeler:
+  - label: 'documentation'
+    files:
+      - '*.md'
+    branch:
+      - '/docs{0,1}\/.+/'
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - '/fix/i'
+  - label: 'enhancement'
+    branch:
+      - '/feature\/.+/'
+
+version-resolver:
+  major:
+    labels:
+      - 'major'
+      - 'breaking'
+  minor:
+    labels:
+      - 'minor'
+      - 'feat'
+  patch:
+    labels:
+      - 'patch'
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+      - 'chore'
+  default: patch
