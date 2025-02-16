@@ -2,7 +2,8 @@ name: Beerus Publish
 
 on:
   release:
-    types: [created]
+    types:
+      - published
 
 jobs:
   publish:
@@ -11,17 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Get next version
-        id: semver
-        uses: ietf-tools/semver-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fallbackTag: "0.0.0"
-
-      - name: semver outputs
-        run: echo "${{ toJson(steps.semver.outputs) }}"
-
 
     #   - name: Set up QEMU
     #     uses: docker/setup-qemu-action@v3

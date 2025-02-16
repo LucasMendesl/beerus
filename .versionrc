@@ -1,0 +1,12 @@
+{
+    "types": [
+        {"type": "feat", "section": "🚀 New features and improvements"},
+        {"type": "fix", "section": "🐛 Bug fixes"},
+        {"type": "chore", "hidden": true},
+        {"type": "docs", "section": "📝 Documentation updates"},
+        {"type": "style", "hidden": true},
+        {"type": "refactor", "section": "👻 Maintenance"},
+        {"type": "perf", "hidden": true},
+        {"type": "test", "section": "🚦 Tests"}
+    ]
+}
