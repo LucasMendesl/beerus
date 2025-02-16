@@ -13,6 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+
+      - name: Install packages
+        run: |
+          cd .github/config
+          ls
+          npm install
+
       - name: Create Release Notes
         id: chglg
         uses: TriPSs/conventional-changelog-action@v5
@@ -21,6 +32,8 @@ jobs:
           skip-commit: "true"
           git-user-name: "LucasMendesl"
           git-user-email: "mendes_lucas2006@hotmail.com"
+          config-file-path: "./.github/config/changelog.js"
+          skip-version-file: "true"
 
       - name: Create Release
         uses: softprops/action-gh-release@v1

@@ -4,6 +4,9 @@ on:
   release:
     types:
       - published
+      - created
+      - released
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -12,6 +15,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Get last version
+        id: version
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data } = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+
+            console.log('data', data);
+            const tag = data.tag_name.substring(1);
+
+            console.log('tag', tag);
+            return tag;
 
     #   - name: Set up QEMU
     #     uses: docker/setup-qemu-action@v3

@@ -19,3 +19,6 @@ beerus
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+#github actions deps
+node_modules
