@@ -1,16 +1,13 @@
-name: Beerus Release
+name: Beerus Version
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
   workflow_dispatch:
 
 jobs:
-  release:
+  version:
     runs-on: ubuntu-latest
     permissions:
-        contents: write
+      contents: write
 
     steps:
       - name: Checkout code
@@ -24,12 +21,3 @@ jobs:
           skip-commit: "true"
           git-user-name: "LucasMendesl"
           git-user-email: "mendes_lucas2006@hotmail.com"
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.chglg.outputs.tag }}
-          name:  Release ${{ steps.chglg.outputs.tag }}
-          generate_release_notes: true
-          body: ${{ steps.chglg.outputs.clean_changelog }}
-          token: ${{ secrets.GITHUB_TOKEN }}
