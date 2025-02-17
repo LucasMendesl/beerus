@@ -73,8 +73,7 @@ jobs:
           tags: |
             type=ref,event=branch
             type=raw,value=latest,enable=true
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=${{ needs.release.outputs.tag }},enable=true
             type=sha,enable=true,priority=100,prefix=,suffix=,format=short
 
       - name: Login to Docker Hub
