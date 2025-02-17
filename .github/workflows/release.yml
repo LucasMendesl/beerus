@@ -1,4 +1,4 @@
-name: Beerus Release
+name: CI Release
 
 on:
   workflow_dispatch:
@@ -48,6 +48,9 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     needs: [release]
 
     steps:
@@ -64,7 +67,9 @@ jobs:
         id: metadata
         uses: docker/metadata-action@v5
         with:
-          images: lucasmendesl/beerus
+          images: |
+            lucasmendesl/beerus
+            ghcr.io/lucasmendesl/beerus
           tags: |
             type=ref,event=branch
             type=raw,value=latest,enable=true
@@ -93,8 +98,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.metadata.outputs.tags }}
           build-args: |
             VERSION=${{ needs.release.outputs.tag }}
             COMMIT_SHA=${{ steps.sha.outputs.short }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=min
