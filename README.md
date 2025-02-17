@@ -72,6 +72,27 @@ Before getting started with __beerus__, ensure your runtime environment meets th
 ❯ go run beerus.go hakai {args}
 ```
 
+**Using `docker`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Docker-2CA5E0.svg?style={badge_style}&logo=docker&logoColor=white" />](https://www.docker.com/)
+
+```sh
+# running using environment variables
+❯ docker run \
+-e BEERUS_IMAGES_LIFETIME_THRESHOLD=1 \
+-v /var/run/docker.sock:/var/run/docker.sock:ro \
+lucasmendesl/beerus:0.1.0 hakai
+
+#running using cli flags
+❯ docker run \
+-v /var/run/docker.sock:/var/run/docker.sock:ro \
+ghcr.io/lucasmendesl/beerus:0.1.0 hakai --lifetime-threshold=100
+```
+
+#### 📦 Avaliable Registries
+
+1. **ghcr.io/lucasmendesl/beerus (ghcr.io)**
+2. **lucasmendesl/beerus:0.1.0  (dockerhub)**
+
+
 #### 🛠 Configuration
 
 This project features a **highly flexible and adaptable configuration system**, enabling users to define settings in the way that best suits their environment and workflow. Configuration can be managed through **YAML files, command-line flags, and environment variables**.
