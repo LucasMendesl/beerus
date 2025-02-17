@@ -1,19 +1,19 @@
-### **Contributing to Beerus**
+### 🤝 **Contributing to Beerus**
 
 Thank you for your interest in contributing to **Beerus**! 🎉 We appreciate your help in making this project better. Please follow the guidelines below to ensure a smooth contribution process.
 
 ---
 
-## Development Setup
+## 💻 Development Setup
 
-### Prerequisites
+### ✅ Prerequisites
 
 - Go 1.23+
 - Docker
 - pre-commit
 - golangci-lint
 
-### Local Setup
+### ⚙️ Local Setup
 
 1. **Fork the Repository**
    - Click the "Fork" button at the top right of this repository.
@@ -68,7 +68,7 @@ Thank you for your interest in contributing to **Beerus**! 🎉 We appreciate yo
 
 ---
 
-## **Code Guidelines**
+## 📜 **Code Guidelines**
 
 - Follow the existing **coding style** and project conventions.
 - Write **unit tests** for new features and bug fixes.
@@ -77,7 +77,7 @@ Thank you for your interest in contributing to **Beerus**! 🎉 We appreciate yo
 
 ---
 
-## **Reporting Issues**
+## 🐛 **Reporting Issues**
 
 If you find a bug or have a feature request, please **open an issue**:
 
@@ -87,7 +87,7 @@ If you find a bug or have a feature request, please **open an issue**:
 
 ---
 
-## **Code of Conduct**
+## 👮‍♀️ **Code of Conduct**
 
 We follow the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/). Please be respectful and inclusive to maintain a welcoming community.
 

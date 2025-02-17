@@ -77,20 +77,24 @@ Before getting started with __beerus__, ensure your runtime environment meets th
 ```sh
 # running using environment variables
 ❯ docker run \
--e BEERUS_IMAGES_LIFETIME_THRESHOLD=1 \
+-e BEERUS_IMAGES_LIFETIME_THRESHOLD=5 \
+-e BEERUS_EXPIRING_POLL_CHECK_INTERVAL=24 \
+-e BEERUS_LOG_LEVEL=debug \
 -v /var/run/docker.sock:/var/run/docker.sock:ro \
-lucasmendesl/beerus:0.1.0 hakai
+lucasmendesl/beerus:latest hakai
 
 #running using cli flags
 ❯ docker run \
 -v /var/run/docker.sock:/var/run/docker.sock:ro \
-ghcr.io/lucasmendesl/beerus:0.1.0 hakai --lifetime-threshold=100
+ghcr.io/lucasmendesl/beerus:latest hakai --lifetime-threshold=100
 ```
 
-#### 📦 Avaliable Registries
+#### 📦 Available Registries
 
-1. **ghcr.io/lucasmendesl/beerus (ghcr.io)**
-2. **lucasmendesl/beerus:0.1.0  (dockerhub)**
+| Registry | Command |
+|----------|---------|
+| ghcr.io  | docker pull ghcr.io/lucasmendesl/beerus |
+| DockerHub| docker pull lucasmendesl/beerus         |
 
 
 #### 🛠 Configuration
